@@ -16,5 +16,5 @@
   :jar-exclusions [#"test"]
   :test-paths ["test/clj/"]
   :repositories [["twitter" {:url "https://maven.twttr.com/"}]]
-  :dependencies [[finagle-clojure/thrift "0.7.1-NUBANK"]
+  :dependencies [[finagle-clojure/thrift "0.7.2-NUBANK"]
                  [com.twitter/finagle-thriftmux_2.11 "18.7.0"]])

@@ -5,7 +5,7 @@
             :url "https://www.apache.org/licenses/LICENSE-2.0"}
   :scm {:name "git" :url "https://github.com/finagle/finagle-clojure"}
   :dependencies [[finagle-clojure/core "0.7.1-NUBANK"]
-                 [finagle-clojure/thrift "0.7.1-NUBANK"]
+                 [finagle-clojure/thrift "0.7.2-NUBANK"]
                  [finagle-clojure/thriftmux "0.7.1-NUBANK"]
                  [finagle-clojure/http "0.7.1-NUBANK"]
                  [finagle-clojure/mysql "0.7.1-NUBANK"]]
