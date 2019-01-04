@@ -48,7 +48,7 @@ public class DogBreedService {
     public Future<BreedInfoResponse> breedInfo(String breedName);
   }
 
-  public static class Client implements TServiceClient, Iface {
+  public static class Client extends TServiceClient implements Iface {
     public static class Factory implements TServiceClientFactory<Client> {
       public Factory() {}
       public Client getClient(TProtocol prot) {
@@ -66,8 +66,7 @@ public class DogBreedService {
 
     public Client(TProtocol iprot, TProtocol oprot)
     {
-      iprot_ = iprot;
-      oprot_ = oprot;
+        super(iprot, oprot);
     }
 
     protected TProtocol iprot_;
@@ -105,7 +104,7 @@ public class DogBreedService {
     {
       TMessage msg = iprot_.readMessageBegin();
       if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+        TApplicationException x = TApplicationException.readFrom(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
@@ -141,8 +140,8 @@ public class DogBreedService {
 
     public void breedInfo(String breedName, AsyncMethodCallback<breedInfo_call> resultHandler) throws TException {
       checkReady();
-      breedInfo_call method_call = new breedInfo_call(breedName, resultHandler, this, protocolFactory, transport);
-      manager.call(method_call);
+      breedInfo_call method_call = new breedInfo_call(breedName, resultHandler, this, getProtocolFactory(), ___transport);
+      ___manager.call(method_call);
     }
 
     public static class breedInfo_call extends TAsyncMethodCall {
