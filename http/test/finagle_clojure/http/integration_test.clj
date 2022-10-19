@@ -30,22 +30,15 @@
       => scala/unit
 
       (f/await (http-server/close! s))
-      => scala/unit
-      )))
+      => scala/unit)))
 
-(facts "builder-based server and client"
+(facts "builder-based client"
   (fact "performs a full-stack integration call"
-    (let [s (->
-              (builder-server/builder)
-              (builder-server/stack (http-server/http-server))
-              (builder-server/bind-to 3000)
-              (builder-server/named "test")
-              (builder-server/build hello-world))
-          c (->
-              (builder-client/builder)
-              (builder-client/stack (http-client/http-client))
-              (builder-client/hosts "localhost:3000")
-              (builder-client/build))]
+        (let [s (http-server/serve ":3001" hello-world)
+              c (-> (builder-client/builder)
+                    (builder-client/stack (http-client/http-client))
+                    (builder-client/hosts "localhost:3001")
+                    (builder-client/build))]
       (-> (s/apply c (m/request "/"))
           (f/await)
           (m/content-string))
@@ -55,5 +48,4 @@
       => scala/unit
 
       (f/await (builder-server/close! s))
-      => scala/unit
-      )))
+      => scala/unit)))
