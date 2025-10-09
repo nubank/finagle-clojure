@@ -182,7 +182,7 @@ public class DogBreedService {
     }
 
     public ServiceToClient(com.twitter.finagle.Service<ThriftClientRequest, byte[]> service, com.twitter.finagle.thrift.RichClientParam clientParam) {
-      
+
       this.service = service;
       this.protocolFactory = clientParam.restrictedProtocolFactory();
       this.responseClassifier = clientParam.responseClassifier();
@@ -201,6 +201,18 @@ public class DogBreedService {
       this(service, com.twitter.finagle.thrift.RichClientParam.apply(protocolFactory, com.twitter.finagle.service.ResponseClassifier.Default()));
     }
 
+    public static TMemoryInputTransport createTMemoryInputTransport(byte[] __buffer__) {
+        TMemoryInputTransport __memoryTransport__;
+
+        try {
+            __memoryTransport__ = new TMemoryInputTransport(__buffer__);
+        } catch (TTransportException ex) {
+            __memoryTransport__ = null;
+        }
+
+        return __memoryTransport__;
+    }
+
     public Future<BreedInfoResponse> breedInfo(String breedName) {
       try {
         TReusableMemoryTransport __memoryTransport__ = tlReusableBuffer.get();
@@ -212,12 +224,17 @@ public class DogBreedService {
         Function<byte[], com.twitter.util.Try<BreedInfoResponse>> replyDeserializer =
           new Function<byte[], com.twitter.util.Try<BreedInfoResponse>>() {
             public com.twitter.util.Try<BreedInfoResponse> apply(byte[] __buffer__) {
-              TMemoryInputTransport __memoryTransport__ = new TMemoryInputTransport(__buffer__);
-              TProtocol __prot__ = ServiceToClient.this.protocolFactory.getProtocol(__memoryTransport__);
-              try {
-                return new com.twitter.util.Return<BreedInfoResponse>(((new Client(__prot__)).recv_breedInfo()));
-              } catch (Exception e) {
-                return new com.twitter.util.Throw<BreedInfoResponse>(e);
+              TMemoryInputTransport __memoryTransport__ = createTMemoryInputTransport(__buffer__);
+
+              if (__memoryTransport__ != null) {
+                  TProtocol __prot__ = ServiceToClient.this.protocolFactory.getProtocol(__memoryTransport__);
+                  try {
+                      return new com.twitter.util.Return<BreedInfoResponse>(((new Client(__prot__)).recv_breedInfo()));
+                  } catch (Exception e) {
+                      return new com.twitter.util.Throw<BreedInfoResponse>(e);
+                  }
+              } else {
+                  return new com.twitter.util.Throw<BreedInfoResponse>(new Exception("It was not possible to create TMemoryInputTransport"));
               }
             }
           };
@@ -240,12 +257,17 @@ public class DogBreedService {
               Future<byte[]> __done__ = service.apply(__request__);
               return __done__.flatMap(new Function<byte[], Future<BreedInfoResponse>>() {
                 public Future<BreedInfoResponse> apply(byte[] __buffer__) {
-                  TMemoryInputTransport __memoryTransport__ = new TMemoryInputTransport(__buffer__);
-                  TProtocol __prot__ = ServiceToClient.this.protocolFactory.getProtocol(__memoryTransport__);
-                  try {
-                    return new ConstFuture(serdeCtx.deserialize(__buffer__));
-                  } catch (Exception e) {
-                    return Future.exception(e);
+                  TMemoryInputTransport __memoryTransport__ = createTMemoryInputTransport(__buffer__);
+
+                  if (__memoryTransport__ != null) {
+                      TProtocol __prot__ = ServiceToClient.this.protocolFactory.getProtocol(__memoryTransport__);
+                      try {
+                          return new ConstFuture(serdeCtx.deserialize(__buffer__));
+                      } catch (Exception e) {
+                          return Future.exception(e);
+                      }
+                  } else {
+                      return Future.exception(new Exception("It was not possible to create TMemoryInputTransport"));
                   }
                 }
               });
@@ -273,7 +295,7 @@ public class DogBreedService {
     private Iface iface_;
     protected final HashMap<String,ProcessFunction> processMap_ = new HashMap<String,ProcessFunction>();
 
-    public boolean process(TProtocol iprot, TProtocol oprot) throws TException
+    public void process(TProtocol iprot, TProtocol oprot) throws TException
     {
       TMessage msg = iprot.readMessageBegin();
       ProcessFunction fn = processMap_.get(msg.name);
@@ -285,10 +307,9 @@ public class DogBreedService {
         x.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
-        return true;
+      } else {
+          fn.process(msg.seqid, iprot, oprot);
       }
-      fn.process(msg.seqid, iprot, oprot);
-      return true;
     }
 
     private class breedInfo implements ProcessFunction {
@@ -309,7 +330,7 @@ public class DogBreedService {
         iprot.readMessageEnd();
         breedInfo_result result = new breedInfo_result();
         result.success = iface_.breedInfo(args.breedName);
-        
+
         oprot.writeMessageBegin(new TMessage("breedInfo", TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -451,37 +472,44 @@ public class DogBreedService {
     }
 
     public Future<byte[]> apply(byte[] request) {
-      TTransport inputTransport = new TMemoryInputTransport(request);
-      TProtocol iprot = protocolFactory.getProtocol(inputTransport);
+      TTransport inputTransport = ServiceToClient.createTMemoryInputTransport(request);
 
-      TMessage msg;
-      try {
-        msg = iprot.readMessageBegin();
-      } catch (Exception e) {
-        return Future.exception(e);
+      if (inputTransport != null) {
+          TProtocol iprot = protocolFactory.getProtocol(inputTransport);
+
+          TMessage msg;
+          try {
+              msg = iprot.readMessageBegin();
+          } catch (Exception e) {
+              return Future.exception(e);
+          }
+
+          com.twitter.finagle.Service<scala.Tuple2<TProtocol, Integer>, byte[]> svc = serviceMap.get(msg.name);
+          if (svc == null) {
+              try {
+                  TProtocolUtil.skip(iprot, TType.STRUCT);
+                  iprot.readMessageEnd();
+                  TApplicationException x = new TApplicationException(TApplicationException.UNKNOWN_METHOD, "Invalid method name: '" + msg.name + "'");
+                  TReusableMemoryTransport memoryBuffer = tlReusableBuffer.get();
+                  TProtocol oprot = protocolFactory.getProtocol(memoryBuffer);
+                  oprot.writeMessageBegin(new TMessage(msg.name, TMessageType.EXCEPTION, msg.seqid));
+                  x.write(oprot);
+                  oprot.writeMessageEnd();
+                  oprot.getTransport().flush();
+                  return Future.value(Arrays.copyOf(memoryBuffer.getArray(), memoryBuffer.length()));
+              } catch (Exception e) {
+                  return Future.exception(e);
+              } finally {
+                  tlReusableBuffer.reset();
+              }
+          }
+
+          return svc.apply(new scala.Tuple2(iprot, msg.seqid));
+      } else {
+          Exception ex = new Exception("It was not possible to create TMemoryInputTransport");
+          setReqRepContext(request, new com.twitter.util.Throw(ex));
+          return Future.exception(ex);
       }
-
-      com.twitter.finagle.Service<scala.Tuple2<TProtocol, Integer>, byte[]> svc = serviceMap.get(msg.name);
-      if (svc == null) {
-        try {
-          TProtocolUtil.skip(iprot, TType.STRUCT);
-          iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.UNKNOWN_METHOD, "Invalid method name: '"+msg.name+"'");
-          TReusableMemoryTransport memoryBuffer = tlReusableBuffer.get();
-          TProtocol oprot = protocolFactory.getProtocol(memoryBuffer);
-          oprot.writeMessageBegin(new TMessage(msg.name, TMessageType.EXCEPTION, msg.seqid));
-          x.write(oprot);
-          oprot.writeMessageEnd();
-          oprot.getTransport().flush();
-          return Future.value(Arrays.copyOf(memoryBuffer.getArray(), memoryBuffer.length()));
-        } catch (Exception e) {
-          return Future.exception(e);
-        } finally {
-          tlReusableBuffer.reset();
-        }
-      }
-
-      return svc.apply(new scala.Tuple2(iprot, msg.seqid));
     }
 
     private Future<byte[]> reply(String name, Integer seqid, TBase result) {
@@ -546,15 +574,15 @@ public class DogBreedService {
   /** The set of fields this object contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements TFieldIdEnum {
     BREED_NAME((short)1, "breedName");
-  
+
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
-  
+
     static {
       for (_Fields field : EnumSet.allOf(_Fields.class)) {
         byName.put(field.getFieldName(), field);
       }
     }
-  
+
     /**
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
@@ -566,7 +594,7 @@ public class DogBreedService {
           return null;
       }
     }
-  
+
     /**
      * Find the _Fields constant that matches fieldId, throwing an exception
      * if it is not found.
@@ -576,26 +604,26 @@ public class DogBreedService {
       if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
       return fields;
     }
-  
+
     /**
      * Find the _Fields constant that matches name, or null if its not found.
      */
     public static _Fields findByName(String name) {
       return byName.get(name);
     }
-  
+
     private final short _thriftId;
     private final String _fieldName;
-  
+
     _Fields(short thriftId, String fieldName) {
       _thriftId = thriftId;
       _fieldName = fieldName;
     }
-  
+
     public short getThriftFieldId() {
       return _thriftId;
     }
-  
+
     public String getFieldName() {
       return _fieldName;
     }
@@ -605,19 +633,19 @@ public class DogBreedService {
   // isset id assignments
 
   public static final Map<_Fields, FieldMetaData> metaDataMap;
-  
+
   /**
    * FieldValueMetaData.type returns TType.STRING for both string and binary field values.
    * This set can be used to determine if a FieldValueMetaData with type TType.STRING is actually
    * declared as binary in the idl file.
    */
   public static final Set<FieldValueMetaData> binaryFieldValueMetaDatas;
-  
+
   private static FieldValueMetaData registerBinaryFieldValueMetaData(FieldValueMetaData f, Set<FieldValueMetaData> binaryFieldValues) {
     binaryFieldValues.add(f);
     return f;
   }
-  
+
   static {
     Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
     Set<FieldValueMetaData> tmpSet = new HashSet<FieldValueMetaData>();
@@ -699,7 +727,7 @@ public class DogBreedService {
 
   public breedInfo_args setBreedName(String breedName) {
     this.breedName = breedName;
-    
+
     return this;
   }
 
@@ -845,7 +873,7 @@ public class DogBreedService {
 
   public void write(TProtocol oprot) throws TException {
     validate();
-    
+
     oprot.writeStructBegin(STRUCT_DESC);
     if (this.breedName != null) {
       oprot.writeFieldBegin(BREED_NAME_FIELD_DESC);
@@ -888,15 +916,15 @@ public class DogBreedService {
   /** The set of fields this object contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements TFieldIdEnum {
     SUCCESS((short)0, "success");
-  
+
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
-  
+
     static {
       for (_Fields field : EnumSet.allOf(_Fields.class)) {
         byName.put(field.getFieldName(), field);
       }
     }
-  
+
     /**
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
@@ -908,7 +936,7 @@ public class DogBreedService {
           return null;
       }
     }
-  
+
     /**
      * Find the _Fields constant that matches fieldId, throwing an exception
      * if it is not found.
@@ -918,26 +946,26 @@ public class DogBreedService {
       if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
       return fields;
     }
-  
+
     /**
      * Find the _Fields constant that matches name, or null if its not found.
      */
     public static _Fields findByName(String name) {
       return byName.get(name);
     }
-  
+
     private final short _thriftId;
     private final String _fieldName;
-  
+
     _Fields(short thriftId, String fieldName) {
       _thriftId = thriftId;
       _fieldName = fieldName;
     }
-  
+
     public short getThriftFieldId() {
       return _thriftId;
     }
-  
+
     public String getFieldName() {
       return _fieldName;
     }
@@ -947,19 +975,19 @@ public class DogBreedService {
   // isset id assignments
 
   public static final Map<_Fields, FieldMetaData> metaDataMap;
-  
+
   /**
    * FieldValueMetaData.type returns TType.STRING for both string and binary field values.
    * This set can be used to determine if a FieldValueMetaData with type TType.STRING is actually
    * declared as binary in the idl file.
    */
   public static final Set<FieldValueMetaData> binaryFieldValueMetaDatas;
-  
+
   private static FieldValueMetaData registerBinaryFieldValueMetaData(FieldValueMetaData f, Set<FieldValueMetaData> binaryFieldValues) {
     binaryFieldValues.add(f);
     return f;
   }
-  
+
   static {
     Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
     Set<FieldValueMetaData> tmpSet = new HashSet<FieldValueMetaData>();
@@ -1046,7 +1074,7 @@ public class DogBreedService {
 
   public breedInfo_result setSuccess(BreedInfoResponse success) {
     this.success = success;
-    
+
     return this;
   }
 
