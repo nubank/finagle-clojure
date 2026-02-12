@@ -1,5 +1,8 @@
 # Changelog
 
+## [Unreleased]
+- Bump Finagle (core, http, thrift, scrooge) to 21.2.0 (enables Aperture load balancer and eager connections APIs)
+
 ## 0.10.1
 - Rollbacking thrift bump until we generate a new release with a compatible code with thrift `0.13.0`
 
