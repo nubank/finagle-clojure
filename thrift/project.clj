@@ -12,12 +12,16 @@
                                       [br.com.nubank/tls-extensions "7.2.0"]]
                      :resource-paths ["test/resources"]
                      :test-paths     ["test/clj/"]}
-             :midje {:plugins [[lein-finagle-clojure "0.9.0-SNAPSHOT"]]}}
+             :midje {:plugins [[lein-finagle-clojure "0.9.0-SNAPSHOT"]]}
+             ;; Use only Central (no S3/twitter) to avoid hanging on repo init
+             :install-only {:repositories ^:replace [["central" "https://repo1.maven.org/maven2/"]]}}
   :finagle-clojure {:thrift-source-path "test/resources" :thrift-output-path "test/java"}
   :java-source-paths ["test/java"]
   :jar-exclusions [#"test"]
   ;; TODO there's no checksum for libthrift-0.5.0.pom, set checksum to warn for now
-  :repositories [["nu-maven" {:url "s3p://nu-maven/releases/"}]
+  ;; central first so finagle-thrift resolves without hanging on twitter/nu-maven
+  :repositories [["central" "https://repo1.maven.org/maven2/"]
+                 ["nu-maven" {:url "s3p://nu-maven/releases/"}]
                  ["twitter" {:url "https://maven.twttr.com/" :checksum :warn}]]
   :deploy-repositories [["releases" {:url "s3p://nu-maven/releases/" :no-auth true}]]
   ;; the dependency on finagle-clojure/core is required for tests
