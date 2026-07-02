@@ -1,7 +1,7 @@
 # Changelog
 
 ## 1.0.0
-- Bump Finagle and scrooge to `24.2.0` (the final Finagle release) and move all modules to Scala 2.13 artifacts.
+- Bump Finagle and scrooge to `24.2.0` (the final Finagle release) and move the built modules (`core`, `http`, `thrift`, `lein-finagle-clojure`) to Scala 2.13 artifacts. `finagle-clojure-template` is not part of the build and remains stale (it predates the Nubank fork).
 - **Breaking**: remove `finagle-clojure.builder.server` and `finagle-clojure.builder.client`. Finagle removed the underlying `ServerBuilder` API in `21.8.0`. Use the stack pattern instead (`finagle-clojure.http.server`/`finagle-clojure.http.client`); `common-finagle >= 11.38.0` already does.
 - Port `finagle-clojure.scala` to `scala.jdk.javaapi.CollectionConverters` (`scala.collection.JavaConversions` no longer exists in Scala 2.13).
 - Pin `libthrift` to `0.12.0`: scrooge `24.2.0` still generates `boolean TProcessor.process`, which is incompatible with the `void` signature introduced by THRIFT-4725 in `0.13.0` (the same issue behind the `0.10.1` rollback below).
