@@ -1,4 +1,4 @@
-(defproject lein-finagle-clojure "0.9.0-SNAPSHOT"
+(defproject lein-finagle-clojure "1.0.0"
   :description "A lein plugin for working with finagle-clojure"
   :url "https://github.com/twitter/finagle-clojure"
   :license {:name "Apache License, Version 2.0"
@@ -11,6 +11,6 @@
                  ["sonatype" "https://oss.sonatype.org/content/groups/public/"]
                  ["twitter" {:url "https://maven.twttr.com/" :checksum :warn}]]
   :deploy-repositories [["releases" {:url "s3p://nu-maven/releases/" :no-auth true}]]
-  :dependencies [[com.twitter/scrooge-generator_2.11 "20.8.1"]
-                 [com.twitter/scrooge-linter_2.11 "20.8.1"]]
+  :dependencies [[com.twitter/scrooge-generator_2.13 "24.2.0"]
+                 [com.twitter/scrooge-linter_2.13 "24.2.0"]]
   :eval-in-leiningen true)

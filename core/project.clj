@@ -1,4 +1,4 @@
-(defproject finagle-clojure/core "0.10.2-SNAPSHOT"
+(defproject finagle-clojure/core "1.0.0"
   :description "A light wrapper around Finagle & Twitter Util for Clojure"
   :url "https://github.com/twitter/finagle-clojure"
   :license {:name "Apache License, Version 2.0"
@@ -12,5 +12,5 @@
                                   [criterium "0.4.4"]]}}
   :repositories [["nu-maven" {:url "s3p://nu-maven/releases/"}]]
   :deploy-repositories [["releases" {:url "s3p://nu-maven/releases/" :no-auth true}]]
-  :dependencies [[com.twitter/finagle-core_2.11 "20.8.1"]
+  :dependencies [[com.twitter/finagle-core_2.13 "24.2.0"]
                  [org.clojure/algo.monads "0.1.6"]])

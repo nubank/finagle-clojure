@@ -1,4 +1,4 @@
-(defproject finagle-clojure/thrift "0.10.2-SNAPSHOT"
+(defproject finagle-clojure/thrift "1.0.0"
   :description "A light wrapper around finagle-thrift for Clojure"
   :url "https://github.com/twitter/finagle-clojure"
   :license {:name "Apache License, Version 2.0"
@@ -9,10 +9,12 @@
             [lein-modules "0.3.11"]]
   :profiles {:dev   {:dependencies   [[org.clojure/clojure "1.10.0"]
                                       [midje "1.9.9" :exclusions [org.clojure/clojure]]
-                                      [br.com.nubank/tls-extensions "7.2.0"]]
+                                      [br.com.nubank/tls-extensions "7.2.0"]
+                                      ;; tls-extensions uses javax.xml.bind, gone from the JDK since Java 11
+                                      [javax.xml.bind/jaxb-api "2.3.1"]]
                      :resource-paths ["test/resources"]
                      :test-paths     ["test/clj/"]}
-             :midje {:plugins [[lein-finagle-clojure "0.9.0-SNAPSHOT"]]}}
+             :midje {:plugins [[lein-finagle-clojure "1.0.0"]]}}
   :finagle-clojure {:thrift-source-path "test/resources" :thrift-output-path "test/java"}
   :java-source-paths ["test/java"]
   :jar-exclusions [#"test"]
@@ -24,7 +26,9 @@
   ;; but also to require fewer dependencies in projects that use thrift.
   ;; this is akin to Finagle itself, where depending on finagle-thrift
   ;; pulls in finagle-core as well.
-  :dependencies [[finagle-clojure/core "0.9.0-SNAPSHOT"]
-                 [com.twitter/finagle-thrift_2.11 "20.8.1"]
-                 [org.apache.thrift/libthrift "0.10.0"]
-                 [org.apache.tomcat/tomcat-jni "8.5.0"]])
+  :dependencies [[finagle-clojure/core "1.0.0"]
+                 [com.twitter/finagle-thrift_2.13 "24.2.0"]
+                 ;; scrooge 24.2.0 generates `boolean TProcessor.process`; libthrift 0.13+
+                 ;; changed it to void, so 0.12.0 is the newest compatible version
+                 [org.apache.thrift/libthrift "0.12.0"]
+                 [org.apache.tomcat/tomcat-jni "8.5.100"]])

@@ -2,11 +2,10 @@
   "Utilities for interop with JVM classes generated from Scala code.
   Scala functions & methods expect Scala collection & function instances,
   not Java Collections or Clojure IFns."
-  (:import [scala.collection JavaConversions Map]
+  (:import [scala.collection Map]
+           [scala.jdk.javaapi CollectionConverters]
            [scala Product]
            [scala.runtime BoxedUnit]))
-
-;; TODO: @samn: 06/11/14 add more wrappers for JavaConversions
 
 (defn ^scala.collection.mutable.Buffer seq->scala-buffer
   "Convert a Clojure seq to a Scala Buffer.
@@ -19,7 +18,7 @@
 
     A Scala Buffer with the contents of `seq`."
   [seq]
-  (-> seq JavaConversions/asScalaBuffer .toList))
+  (-> (CollectionConverters/asScala ^java.util.List seq) .toList))
 
 (defn scala-seq->vec
   "Convert a Scala Seq to a vector.
@@ -32,7 +31,7 @@
 
     A PersistentVector with the contents of `scala-seq`."
   [scala-seq]
-  (into [] (JavaConversions/seqAsJavaList scala-seq)))
+  (into [] (CollectionConverters/asJava ^scala.collection.Seq scala-seq)))
 
 (defn tuple->vec [^Product p]
   "Convert a Scala Tuple to a vector.
@@ -60,7 +59,7 @@
 
     A PersistentHashMap with the conents of `m`."
   [^Map m]
-  (into {} (JavaConversions/mapAsJavaMap m)))
+  (into {} (CollectionConverters/asJava m)))
 
 (def unit
   "The Scala Unit value."

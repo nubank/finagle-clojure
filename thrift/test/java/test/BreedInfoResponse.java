@@ -25,6 +25,10 @@ import org.apache.thrift.transport.*;
 import org.apache.thrift.protocol.*;
 
 import com.twitter.scrooge.ThriftStructIface;
+import com.twitter.scrooge.UtilValidator;
+import com.twitter.scrooge.thrift_validation.BaseValidator;
+import com.twitter.scrooge.thrift_validation.ThriftValidationViolation;
+import com.twitter.scrooge.internal.TProtocols;
 
 // No additional import required for struct/union.
 
@@ -192,6 +196,14 @@ public class BreedInfoResponse implements TBase<BreedInfoResponse, BreedInfoResp
     return buf;
   }
 
+  public static Set<ThriftValidationViolation> validateInstanceValue(BreedInfoResponse item) {
+    final Set<ThriftValidationViolation> violations = new HashSet<ThriftValidationViolation>();
+    final BaseValidator validator = new UtilValidator();
+
+
+    return violations;
+  }
+
   public BreedInfoResponse deepCopy() {
     return new BreedInfoResponse(this);
   }
@@ -282,7 +294,7 @@ public class BreedInfoResponse implements TBase<BreedInfoResponse, BreedInfoResp
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -392,19 +404,13 @@ public class BreedInfoResponse implements TBase<BreedInfoResponse, BreedInfoResp
       }
       switch (field.id) {
         case 1: // NAME
-          if (field.type == TType.STRING) {
-            this.name = iprot.readString();
-          } else {
-            TProtocolUtil.skip(iprot, field.type);
-          }
+          TProtocols.validateFieldType(TType.STRING, field.type, "name");
+          this.name = iprot.readString();
           break;
         case 2: // BEAUTIFUL
-          if (field.type == TType.BOOL) {
-            this.beautiful = iprot.readBool();
-            setBeautifulIsSet(true);
-          } else {
-            TProtocolUtil.skip(iprot, field.type);
-          }
+          TProtocols.validateFieldType(TType.BOOL, field.type, "beautiful");
+          this.beautiful = iprot.readBool();
+          setBeautifulIsSet(true);
           break;
         default:
           TProtocolUtil.skip(iprot, field.type);

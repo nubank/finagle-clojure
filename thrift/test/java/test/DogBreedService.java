@@ -26,8 +26,12 @@ import org.apache.thrift.protocol.*;
 
 import com.twitter.scrooge.ThriftMethodIface;
 import com.twitter.scrooge.ThriftStructIface;
+import com.twitter.scrooge.UtilValidator;
 import com.twitter.scrooge.TReusableBuffer;
 import com.twitter.scrooge.TReusableMemoryTransport;
+import com.twitter.scrooge.internal.TProtocols;
+import com.twitter.scrooge.thrift_validation.BaseValidator;
+import com.twitter.scrooge.thrift_validation.ThriftValidationViolation;
 import com.twitter.util.ConstFuture;
 import com.twitter.util.Future;
 import com.twitter.util.Function;
@@ -431,8 +435,8 @@ public class DogBreedService {
         private final com.twitter.finagle.Service<breedInfo_args, BreedInfoResponse> methodService = new com.twitter.finagle.Service<breedInfo_args, BreedInfoResponse>() {
           @Override
           public Future<BreedInfoResponse> apply(breedInfo_args args) {
-            Future<BreedInfoResponse> future = iface.breedInfo(args.breedName);
-            return future;
+            com.twitter.finagle.thrift.ServerAnnotations.annotate("breedInfo", "test.DogBreedService#breedInfo()");
+            return iface.breedInfo(args.breedName);
           }
         };
 
@@ -684,6 +688,14 @@ public class DogBreedService {
     return buf;
   }
 
+  public static Set<ThriftValidationViolation> validateInstanceValue(breedInfo_args item) {
+    final Set<ThriftValidationViolation> violations = new HashSet<ThriftValidationViolation>();
+    final BaseValidator validator = new UtilValidator();
+
+
+    return violations;
+  }
+
   public breedInfo_args deepCopy() {
     return new breedInfo_args(this);
   }
@@ -739,7 +751,7 @@ public class DogBreedService {
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -826,11 +838,8 @@ public class DogBreedService {
       }
       switch (field.id) {
         case 1: // BREED_NAME
-          if (field.type == TType.STRING) {
-            this.breedName = iprot.readString();
-          } else {
-            TProtocolUtil.skip(iprot, field.type);
-          }
+          TProtocols.validateFieldType(TType.STRING, field.type, "breedName");
+          this.breedName = iprot.readString();
           break;
         default:
           TProtocolUtil.skip(iprot, field.type);
@@ -1031,6 +1040,15 @@ public class DogBreedService {
     return buf;
   }
 
+  public static Set<ThriftValidationViolation> validateInstanceValue(breedInfo_result item) {
+    final Set<ThriftValidationViolation> violations = new HashSet<ThriftValidationViolation>();
+    final BaseValidator validator = new UtilValidator();
+
+    violations.addAll(test.BreedInfoResponse.validateInstanceValue(item.success));
+
+    return violations;
+  }
+
   public breedInfo_result deepCopy() {
     return new breedInfo_result(this);
   }
@@ -1086,7 +1104,7 @@ public class DogBreedService {
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -1173,12 +1191,9 @@ public class DogBreedService {
       }
       switch (field.id) {
         case 0: // SUCCESS
-          if (field.type == TType.STRUCT) {
-            this.success = new BreedInfoResponse();
+          TProtocols.validateFieldType(TType.STRUCT, field.type, "success");
+          this.success = new BreedInfoResponse();
             this.success.read(iprot);
-          } else {
-            TProtocolUtil.skip(iprot, field.type);
-          }
           break;
         default:
           TProtocolUtil.skip(iprot, field.type);
