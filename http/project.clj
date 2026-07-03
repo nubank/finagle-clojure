@@ -1,4 +1,4 @@
-(defproject finagle-clojure/http "1.0.0"
+(defproject finagle-clojure/http "1.0.1-SNAPSHOT"
   :description "A light wrapper around Finagle HTTP for Clojure"
   :url "https://github.com/twitter/finagle-clojure"
   :license {:name "Apache License, Version 2.0"
@@ -11,6 +11,6 @@
                                   [midje "1.9.9" :exclusions [org.clojure/clojure]]]}}
   :repositories [["nu-maven" {:url "s3p://nu-maven/releases/"}]]
   :deploy-repositories [["releases" {:url "s3p://nu-maven/releases/" :no-auth true}]]
-  :dependencies [[finagle-clojure/core "1.0.0"]
+  :dependencies [[finagle-clojure/core "1.0.1-SNAPSHOT"]
                  [com.twitter/finagle-http_2.13 "24.2.0"]
                  [com.twitter/finagle-stats_2.13 "24.2.0"]])
