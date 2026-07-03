@@ -1,4 +1,4 @@
-(defproject finagle-clojure/thrift "1.0.0"
+(defproject finagle-clojure/thrift "1.0.1-SNAPSHOT"
   :description "A light wrapper around finagle-thrift for Clojure"
   :url "https://github.com/twitter/finagle-clojure"
   :license {:name "Apache License, Version 2.0"
@@ -26,7 +26,7 @@
   ;; but also to require fewer dependencies in projects that use thrift.
   ;; this is akin to Finagle itself, where depending on finagle-thrift
   ;; pulls in finagle-core as well.
-  :dependencies [[finagle-clojure/core "1.0.0"]
+  :dependencies [[finagle-clojure/core "1.0.1-SNAPSHOT"]
                  [com.twitter/finagle-thrift_2.13 "24.2.0"]
                  ;; scrooge 24.2.0 generates `boolean TProcessor.process`; libthrift 0.13+
                  ;; changed it to void, so 0.12.0 is the newest compatible version
