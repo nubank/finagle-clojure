@@ -25,7 +25,7 @@
                                           ["vcs" "push"]]}}
   :modules {:subprocess nil
             :dirs       ["lein-finagle-clojure" "core" "thrift" "http"]
-            :versions   {org.clojure/clojure    "1.10.0"
+            :versions   {org.clojure/clojure    "1.11.2"
                          finagle-clojure        :version}}
   :codox {:sources                   ["core/src" "thrift/src" "http/src"]
           :defaults                  {:doc/format :markdown}

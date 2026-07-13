@@ -11,6 +11,19 @@
                  ["sonatype" "https://oss.sonatype.org/content/groups/public/"]
                  ["twitter" {:url "https://maven.twttr.com/" :checksum :warn}]]
   :deploy-repositories [["releases" {:url "s3p://nu-maven/releases/" :no-auth true}]]
+  ;; the pins below override vulnerable transitives of scrooge 24.2.0
+  ;; (the last scrooge release ever published); libthrift is capped at
+  ;; 0.12.0 for the same scrooge codegen compatibility reason documented
+  ;; in thrift/project.clj
   :dependencies [[com.twitter/scrooge-generator_2.13 "24.2.0"]
-                 [com.twitter/scrooge-linter_2.13 "24.2.0"]]
+                 [com.twitter/scrooge-linter_2.13 "24.2.0"]
+                 [org.apache.thrift/libthrift "0.12.0"]
+                 [org.scala-lang/scala-library "2.13.16"]
+                 [org.codehaus.plexus/plexus-utils "3.6.1"]
+                 [com.google.guava/guava "32.0.1-jre"]
+                 [org.apache.httpcomponents/httpclient "4.5.14"]
+                 [com.fasterxml.jackson.core/jackson-core "2.18.8"]
+                 [com.fasterxml.jackson.core/jackson-databind "2.18.8"]
+                 [com.fasterxml.jackson.core/jackson-annotations "2.18.8"]
+                 [com.fasterxml.jackson.module/jackson-module-scala_2.13 "2.18.8"]]
   :eval-in-leiningen true)
