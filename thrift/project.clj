@@ -16,8 +16,8 @@
                                       ;; aws-java-sdk-core is pinned alongside s3 so the two stay aligned
                                       [com.google.code.gson/gson "2.10.1"]
                                       [com.google.guava/guava "32.0.1-jre"]
-                                      [com.amazonaws/aws-java-sdk-s3 "1.12.261"]
-                                      [com.amazonaws/aws-java-sdk-core "1.12.261"]]
+                                      [com.amazonaws/aws-java-sdk-s3 "1.12.797"]
+                                      [com.amazonaws/aws-java-sdk-core "1.12.797"]]
                      :resource-paths ["test/resources"]
                      :test-paths     ["test/clj/"]}
              :midje {:plugins [[lein-finagle-clojure "1.0.0"]]}}
@@ -45,9 +45,9 @@
                  [org.apache.httpcomponents/httpclient "4.5.14"]
                  [org.apache.tomcat/tomcat-jni "8.5.100"]
                  [org.scala-lang/scala-library "2.13.16"]
-                 ;; snakeyaml 1.33 clears the <1.32 DoS CVEs without the 2.x API break;
-                 ;; CVE-2022-1471 (fixed only in 2.x) remains open until the 2.x migration
-                 [org.yaml/snakeyaml "1.33"]
+                 ;; snakeyaml 2.x clears CVE-2022-1471 (RCE); util-security is exercised
+                 ;; against it by the midje suites
+                 [org.yaml/snakeyaml "2.4"]
                  [com.fasterxml.jackson.core/jackson-core "2.18.8"]
                  [com.fasterxml.jackson.core/jackson-databind "2.18.8"]
                  [com.fasterxml.jackson.core/jackson-annotations "2.18.8"]
