@@ -45,6 +45,9 @@
                  [org.apache.httpcomponents/httpclient "4.5.14"]
                  [org.apache.tomcat/tomcat-jni "8.5.100"]
                  [org.scala-lang/scala-library "2.13.16"]
+                 ;; snakeyaml 1.33 clears the <1.32 DoS CVEs without the 2.x API break;
+                 ;; CVE-2022-1471 (fixed only in 2.x) remains open until the 2.x migration
+                 [org.yaml/snakeyaml "1.33"]
                  [com.fasterxml.jackson.core/jackson-core "2.18.8"]
                  [com.fasterxml.jackson.core/jackson-databind "2.18.8"]
                  [com.fasterxml.jackson.core/jackson-annotations "2.18.8"]
