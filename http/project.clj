@@ -19,9 +19,9 @@
                  [com.twitter/finagle-http_2.13 "24.2.0"]
                  [com.twitter/finagle-stats_2.13 "24.2.0"]
                  [org.scala-lang/scala-library "2.13.16"]
-                 ;; snakeyaml 1.33 clears the <1.32 DoS CVEs without the 2.x API break;
-                 ;; CVE-2022-1471 (fixed only in 2.x) remains open until the 2.x migration
-                 [org.yaml/snakeyaml "1.33"]
+                 ;; snakeyaml 2.x clears CVE-2022-1471 (RCE); util-security is exercised
+                 ;; against it by the midje suites
+                 [org.yaml/snakeyaml "2.4"]
                  [com.fasterxml.jackson.core/jackson-core "2.18.8"]
                  [com.fasterxml.jackson.core/jackson-databind "2.18.8"]
                  [com.fasterxml.jackson.core/jackson-annotations "2.18.8"]
