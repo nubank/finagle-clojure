@@ -1,4 +1,4 @@
-(defproject finagle-clojure/thrift "1.0.1-SNAPSHOT"
+(defproject finagle-clojure/thrift "1.0.1"
   :description "A light wrapper around finagle-thrift for Clojure"
   :url "https://github.com/twitter/finagle-clojure"
   :license {:name "Apache License, Version 2.0"
@@ -36,7 +36,7 @@
   ;; finagle 24.2.0 (the last Finagle release ever published); all netty
   ;; artifacts must stay aligned on the same version, including the
   ;; classified native-epoll jars (conflict resolution is per classifier)
-  :dependencies [[finagle-clojure/core "1.0.1-SNAPSHOT"]
+  :dependencies [[finagle-clojure/core "1.0.1"]
                  [com.twitter/finagle-thrift_2.13 "24.2.0"]
                  ;; scrooge 24.2.0 generates `boolean TProcessor.process`; libthrift 0.13+
                  ;; changed it to void, so 0.12.0 is the newest compatible version

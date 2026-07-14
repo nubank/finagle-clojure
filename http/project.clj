@@ -1,4 +1,4 @@
-(defproject finagle-clojure/http "1.0.1-SNAPSHOT"
+(defproject finagle-clojure/http "1.0.1"
   :description "A light wrapper around Finagle HTTP for Clojure"
   :url "https://github.com/twitter/finagle-clojure"
   :license {:name "Apache License, Version 2.0"
@@ -15,7 +15,7 @@
   ;; finagle 24.2.0 (the last Finagle release ever published); all netty
   ;; artifacts must stay aligned on the same version, including the
   ;; classified native-epoll jars (conflict resolution is per classifier)
-  :dependencies [[finagle-clojure/core "1.0.1-SNAPSHOT"]
+  :dependencies [[finagle-clojure/core "1.0.1"]
                  [com.twitter/finagle-http_2.13 "24.2.0"]
                  [com.twitter/finagle-stats_2.13 "24.2.0"]
                  [org.scala-lang/scala-library "2.13.16"]
