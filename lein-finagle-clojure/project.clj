@@ -22,8 +22,8 @@
                  [org.codehaus.plexus/plexus-utils "3.6.1"]
                  [com.google.guava/guava "32.0.1-jre"]
                  [org.apache.httpcomponents/httpclient "4.5.14"]
-                 [com.fasterxml.jackson.core/jackson-core "2.18.8"]
-                 [com.fasterxml.jackson.core/jackson-databind "2.18.8"]
-                 [com.fasterxml.jackson.core/jackson-annotations "2.18.8"]
-                 [com.fasterxml.jackson.module/jackson-module-scala_2.13 "2.18.8"]]
+                 [com.fasterxml.jackson.core/jackson-core "2.18.9"]
+                 [com.fasterxml.jackson.core/jackson-databind "2.18.9"]
+                 [com.fasterxml.jackson.core/jackson-annotations "2.18.9"]
+                 [com.fasterxml.jackson.module/jackson-module-scala_2.13 "2.18.9"]]
   :eval-in-leiningen true)

@@ -22,10 +22,10 @@
                  ;; snakeyaml 2.x clears CVE-2022-1471 (RCE); util-security is exercised
                  ;; against it by the midje suites
                  [org.yaml/snakeyaml "2.4"]
-                 [com.fasterxml.jackson.core/jackson-core "2.18.8"]
-                 [com.fasterxml.jackson.core/jackson-databind "2.18.8"]
-                 [com.fasterxml.jackson.core/jackson-annotations "2.18.8"]
-                 [com.fasterxml.jackson.module/jackson-module-scala_2.13 "2.18.8"]
+                 [com.fasterxml.jackson.core/jackson-core "2.18.9"]
+                 [com.fasterxml.jackson.core/jackson-databind "2.18.9"]
+                 [com.fasterxml.jackson.core/jackson-annotations "2.18.9"]
+                 [com.fasterxml.jackson.module/jackson-module-scala_2.13 "2.18.9"]
                  [io.netty/netty-buffer "4.1.135.Final"]
                  [io.netty/netty-codec "4.1.135.Final"]
                  [io.netty/netty-codec-dns "4.1.135.Final"]
