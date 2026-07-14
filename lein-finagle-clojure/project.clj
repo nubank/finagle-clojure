@@ -12,5 +12,11 @@
                  ["twitter" {:url "https://maven.twttr.com/" :checksum :warn}]]
   :deploy-repositories [["releases" {:url "s3p://nu-maven/releases/" :no-auth true}]]
   :dependencies [[com.twitter/scrooge-generator_2.13 "24.2.0"]
-                 [com.twitter/scrooge-linter_2.13 "24.2.0"]]
+                 [com.twitter/scrooge-linter_2.13 "24.2.0"]
+                 ;; full jackson 2.18.9 stack (GHSA-5jmj-h7xm-6q6v); scrooge bundles a vulnerable 2.14.x,
+                 ;; and jackson-module-scala enforces databind version match, so all four move together
+                 [com.fasterxml.jackson.core/jackson-databind "2.18.9"]
+                 [com.fasterxml.jackson.core/jackson-core "2.18.9"]
+                 [com.fasterxml.jackson.core/jackson-annotations "2.18.9"]
+                 [com.fasterxml.jackson.module/jackson-module-scala_2.13 "2.18.9" :exclusions [com.google.guava/guava org.scala-lang.modules/scala-collection-compat_3]]]
   :eval-in-leiningen true)

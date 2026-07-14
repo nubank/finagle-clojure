@@ -31,4 +31,10 @@
                  ;; scrooge 24.2.0 generates `boolean TProcessor.process`; libthrift 0.13+
                  ;; changed it to void, so 0.12.0 is the newest compatible version
                  [org.apache.thrift/libthrift "0.12.0"]
+                 ;; full jackson 2.18.9 stack (GHSA-5jmj-h7xm-6q6v); Finagle bundles a vulnerable 2.14.x,
+                 ;; and jackson-module-scala enforces databind version match, so all four move together
+                 [com.fasterxml.jackson.core/jackson-databind "2.18.9"]
+                 [com.fasterxml.jackson.core/jackson-core "2.18.9"]
+                 [com.fasterxml.jackson.core/jackson-annotations "2.18.9"]
+                 [com.fasterxml.jackson.module/jackson-module-scala_2.13 "2.18.9" :exclusions [com.google.guava/guava]]
                  [org.apache.tomcat/tomcat-jni "8.5.100"]])
