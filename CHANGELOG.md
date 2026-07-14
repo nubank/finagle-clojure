@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.1 (2026-07-14)
+Dependency-security patch release — CVE-clearing pins over Finagle 24.2.0's frozen transitive set. No API or behavior changes.
+- **netty** pinned to `4.1.135.Final` across the aligned set (clears 56 alerts).
+- **jackson** core/databind/annotations/module-scala_2.13 aligned at `2.18.9` (GHSA-5jmj-h7xm-6q6v). All four move together because `jackson-module-scala` enforces a matching `jackson-databind` version at runtime.
+- **scala-library** `2.13.16` (critical alerts).
+- **snakeyaml** `2.4` (CVE-2022-1471 RCE).
+- **aws-java-sdk-s3/core** `1.12.797` (drops vulnerable transitive `ion-java`).
+- **plexus-utils** `3.6.1`, **guava** `32.0.1-jre`, **httpclient** `4.5.14`, **gson** `2.10.1`.
+- `libthrift` remains `0.12.0`: scrooge `24.2.0` codegen requires the pre-`0.13` `TProcessor.process` signature, so the patched `0.23.0` is not adoptable (vulnerable TLS transport is unused — finagle-clojure does TLS via Finagle's Netty transport).
+
 ## 1.0.0 (2026-07-03)
 - Bump Finagle and scrooge to `24.2.0` (the final Finagle release) and move the built modules (`core`, `http`, `thrift`, `lein-finagle-clojure`) to Scala 2.13 artifacts. `finagle-clojure-template` is not part of the build and remains stale (it predates the Nubank fork).
 - **Breaking**: remove `finagle-clojure.builder.server` and `finagle-clojure.builder.client`. Finagle removed the underlying `ServerBuilder` API in `21.8.0`. Use the stack pattern instead (`finagle-clojure.http.server`/`finagle-clojure.http.client`); `common-finagle >= 11.38.0` already does.
