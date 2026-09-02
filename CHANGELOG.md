@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.2 / 2026-09-02
+- Bump the aligned netty pin set in `http/` and `thrift/` from `4.1.135.Final` to `4.1.137.Final`.
+
+`4.1.137.Final` is the first release carrying every fix in the set — `GHSA-8c42-7qj2-3j46` needs 137, the rest 136. Clears 22 of the 24 open Dependabot alerts:
+
+| Artifact | Advisories |
+|---|---|
+| `netty-codec-http` | GHSA-6jqx-86gh-f27w, GHSA-mvh2-crg5-v77c, GHSA-jppx-w49h-x2qq, GHSA-6cqp-g7gg-8hr5, GHSA-4mp9-239f-g9hg, GHSA-q4f6-jm68-57ww, GHSA-gcjf-9mgh-3p7g, GHSA-8c42-7qj2-3j46 |
+| `netty-codec` | GHSA-558v-64gr-wgg4 |
+| `netty-codec-dns` | GHSA-mfg7-5gfp-c4w3 |
+| `netty-codec-http2` | GHSA-93wv-jw9v-4972, GHSA-c69g-56f8-xwqj |
+
+All 15 artifacts plus both classified `netty-transport-native-epoll` jars were confirmed present on Maven Central at `4.1.137.Final`; the classified jars move with the set because conflict resolution is per classifier.
+
 ## 1.0.1 (2026-07-14)
 Dependency-security patch release — CVE-clearing pins over Finagle 24.2.0's frozen transitive set. No API or behavior changes.
 - **netty** pinned to `4.1.135.Final` across the aligned set (clears 56 alerts).
