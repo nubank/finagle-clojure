@@ -1,4 +1,4 @@
-(defproject finagle-clojure/http "1.0.2-SNAPSHOT"
+(defproject finagle-clojure/http "1.0.3-SNAPSHOT"
   :description "A light wrapper around Finagle HTTP for Clojure"
   :url "https://github.com/twitter/finagle-clojure"
   :license {:name "Apache License, Version 2.0"
@@ -26,20 +26,20 @@
                  [com.fasterxml.jackson.core/jackson-databind "2.18.9"]
                  [com.fasterxml.jackson.core/jackson-annotations "2.18.9"]
                  [com.fasterxml.jackson.module/jackson-module-scala_2.13 "2.18.9"]
-                 [io.netty/netty-buffer "4.1.135.Final"]
-                 [io.netty/netty-codec "4.1.135.Final"]
-                 [io.netty/netty-codec-dns "4.1.135.Final"]
-                 [io.netty/netty-codec-http "4.1.135.Final"]
-                 [io.netty/netty-codec-http2 "4.1.135.Final"]
-                 [io.netty/netty-codec-socks "4.1.135.Final"]
-                 [io.netty/netty-common "4.1.135.Final"]
-                 [io.netty/netty-handler "4.1.135.Final"]
-                 [io.netty/netty-handler-proxy "4.1.135.Final"]
-                 [io.netty/netty-resolver "4.1.135.Final"]
-                 [io.netty/netty-resolver-dns "4.1.135.Final"]
-                 [io.netty/netty-transport "4.1.135.Final"]
-                 [io.netty/netty-transport-classes-epoll "4.1.135.Final"]
-                 [io.netty/netty-transport-native-unix-common "4.1.135.Final"]
-                 [io.netty/netty-transport-native-epoll "4.1.135.Final"]
-                 [io.netty/netty-transport-native-epoll "4.1.135.Final" :classifier "linux-x86_64"]
-                 [io.netty/netty-transport-native-epoll "4.1.135.Final" :classifier "linux-aarch_64"]])
+                 [io.netty/netty-buffer "4.1.137.Final"]
+                 [io.netty/netty-codec "4.1.137.Final"]
+                 [io.netty/netty-codec-dns "4.1.137.Final"]
+                 [io.netty/netty-codec-http "4.1.137.Final"]
+                 [io.netty/netty-codec-http2 "4.1.137.Final"]
+                 [io.netty/netty-codec-socks "4.1.137.Final"]
+                 [io.netty/netty-common "4.1.137.Final"]
+                 [io.netty/netty-handler "4.1.137.Final"]
+                 [io.netty/netty-handler-proxy "4.1.137.Final"]
+                 [io.netty/netty-resolver "4.1.137.Final"]
+                 [io.netty/netty-resolver-dns "4.1.137.Final"]
+                 [io.netty/netty-transport "4.1.137.Final"]
+                 [io.netty/netty-transport-classes-epoll "4.1.137.Final"]
+                 [io.netty/netty-transport-native-unix-common "4.1.137.Final"]
+                 [io.netty/netty-transport-native-epoll "4.1.137.Final"]
+                 [io.netty/netty-transport-native-epoll "4.1.137.Final" :classifier "linux-x86_64"]
+                 [io.netty/netty-transport-native-epoll "4.1.137.Final" :classifier "linux-aarch_64"]])

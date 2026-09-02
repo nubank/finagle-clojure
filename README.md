@@ -1,4 +1,5 @@
 # finagle-clojure [![Build Status](https://travis-ci.org/nubank/finagle-clojure.svg?branch=master)](https://travis-ci.org/nubank/finagle-clojure)
+![Current Version](img/version-badge.svg)
 
 A thin wrapper around Finagle & Twitter Future.
 This library assumes you are familiar with Finagle.
@@ -15,4 +16,3 @@ And then:
 ```
 lein modules midje
 ```
-
